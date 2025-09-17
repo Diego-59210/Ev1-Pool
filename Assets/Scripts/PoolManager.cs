@@ -10,7 +10,7 @@ public class PoolManager : MonoBehaviour
 
     [Header("Shot Settings")]
     public float shotPower = 1.0f;
-    public float maxShotSpeed = 10.0f;
+    public float maxShotPower = 10.0f;
 
     [Header("Table")]
     public SpriteRenderer spriteRenderer;
@@ -90,8 +90,8 @@ public class PoolManager : MonoBehaviour
             if (Input.GetMouseButtonUp(0))
             {
                 Vector2 dir = aimCurrentWorld - cueBall.position;
-                Vector2 v = dir * Mathf.Lerp(shotPower, maxShotSpeed, chargePower);
-                if (v.magnitude > maxShotSpeed) v = v.normalized * maxShotSpeed;
+                Vector2 v = dir * Mathf.Lerp(shotPower, maxShotPower, chargePower);
+                if (v.magnitude > maxShotPower) v = v.normalized * maxShotPower;
 
                 cueBall.velocity = v;
 
