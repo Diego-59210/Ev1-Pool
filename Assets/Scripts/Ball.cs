@@ -2,23 +2,39 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour 
 {
+    [HideInInspector] public Vector2 position;
+    [HideInInspector] public Vector2 prevPosition;
+
     public Vector2 velocity;
-    public float radius = 0.5f;
 
-    public Vector2 Position 
+    [HideInInspector] public float radius { get; private set; }
+
+    private SpriteRenderer spriteRenderer;
+
+    void Awake()
     {
-        get { return transform.position; }
-        set { transform.position = value; }
+        position = transform.position;
+        prevPosition = position;
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null)
+            radius = spriteRenderer.bounds.extents.x;
     }
 
-    public void SyncTransform() 
+    public Vector2 Velocity
     {
-        transform.position = Position;
+        get => velocity;
+        set
+        {
+            velocity = value;
+            if (velocity.sqrMagnitude < 0.0001f)
+                velocity = Vector2.zero;
+        }
     }
-    void OnDrawGizmos() 
-    {
-    Gizmos.color = Color.blue;
 
-    Gizmos.DrawWireSphere(Position, radius);
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, radius);
     }
 }
