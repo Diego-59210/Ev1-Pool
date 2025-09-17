@@ -109,9 +109,7 @@ public class PoolManager : MonoBehaviour
 
         foreach (var b in balls)
         {
-            // Aplicar fricción
-            if (b.velocity.sqrMagnitude > stopThreshold * stopThreshold)
-                b.velocity *= Mathf.Pow(ballFriction, dt);
+            DragBall(b, dt);
 
             // Mover la bola
             b.position += b.velocity * dt;
@@ -184,6 +182,16 @@ public class PoolManager : MonoBehaviour
             if (a.velocity.magnitude < stopThreshold) a.velocity = Vector2.zero;
             if (b.velocity.magnitude < stopThreshold) b.velocity = Vector2.zero;
         }
+    }
+    void DragBall(Ball b, float dt)
+    {
+        // Aplicar fricción.
+        if (b.velocity.sqrMagnitude > stopThreshold * stopThreshold)
+            b.velocity *= Mathf.Pow(ballFriction, dt);
+
+        // Detener pequeños movimientos.
+        if (b.velocity.magnitude < stopThreshold)
+            b.velocity = Vector2.zero;
     }
 
 
